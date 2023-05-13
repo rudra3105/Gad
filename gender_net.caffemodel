@@ -1,0 +1,54 @@
+
+from PIL import Image   
+
+''' --------------- DO NOT MODIFY THIS FUNCTION ---------------'''          
+
+# Purpose:  Recursive function to draw a snowflake pattern on an image
+def draw_snowflakes(image, x, y, size, level):
+
+    # Exit the recursive call if no more detail levels are needed
+    if level <= 0:
+        return
+
+    # If detail level is too high, the program takes a very long time to finish
+    if level > 4:
+        raise Exception('Too much detail requested!')
+   
+    # Draw a white snowflake of the given size on the given image 
+    # centered at the given x and y coordinate           
+    start_x = x - size // 2
+    start_y = y - size // 2
+                     
+    amt = 0             
+    for temp_y in range(start_y, start_y + size):
+        
+        # Draw vertical line of snowflake
+        image.putpixel((x, temp_y), (255, 255, 255)) 
+        
+        # Draw diagonal lines of snowflake
+        amt += 1        
+        image.putpixel((start_x + amt, temp_y), (255, 255, 255))
+        image.putpixel((start_x + size - amt, temp_y), (255, 255, 255))
+     
+    # Draw horizontal line of snowflake    
+    for temp_x in range(start_x, start_x + size):
+        image.putpixel((temp_x, y), (255, 255, 255)) 
+            
+    # Setup variables for the next set of recursive calls
+    new_level = level - 1
+    new_size = size // 3
+
+    # Calculate the coordinates for the new snowflakes
+    for new_y in [y - size, y, y + size]:
+        for new_x in [x - size, x, x + size]:
+            
+            # Only call the function if the coordinates are different 
+            # from the previous coordinates
+            if not (new_x == x and new_y == y):
+                draw_snowflakes(image, new_x, new_y, new_size, new_level)
+
+
+''' ----------------------------------------------------------- 
+    ------------------ INSERT YOUR CODE BELOW -----------------         
+    ----------------------------------------------------------- '''
+
